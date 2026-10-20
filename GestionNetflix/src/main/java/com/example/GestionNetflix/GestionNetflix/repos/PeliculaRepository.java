@@ -1,6 +1,6 @@
 package com.example.GestionNetflix.GestionNetflix.repos;
 
-import model.Pelicula;
+import com.example.GestionNetflix.GestionNetflix.model.Pelicula;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PeliculaRepository extends JpaRepository<Pelicula, Long> {

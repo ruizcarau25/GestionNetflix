@@ -1,11 +1,9 @@
 package com.example.GestionNetflix.GestionNetflix.controllers;
 
 import com.example.GestionNetflix.GestionNetflix.dtos.GetActorList;
-import com.example.GestionNetflix.GestionNetflix.repos.ActorRepository;
-import com.example.GestionNetflix.GestionNetflix.repos.PeliculaRepository;
 import com.example.GestionNetflix.GestionNetflix.services.ActorService;
 import lombok.RequiredArgsConstructor;
-import model.Actor;
+import com.example.GestionNetflix.GestionNetflix.model.Actor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

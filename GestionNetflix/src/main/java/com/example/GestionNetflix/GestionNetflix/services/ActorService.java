@@ -3,7 +3,7 @@ package com.example.GestionNetflix.GestionNetflix.services;
 import com.example.GestionNetflix.GestionNetflix.repos.ActorRepository;
 import com.example.GestionNetflix.GestionNetflix.repos.PeliculaRepository;
 import lombok.RequiredArgsConstructor;
-import model.Actor;
+import com.example.GestionNetflix.GestionNetflix.model.Actor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

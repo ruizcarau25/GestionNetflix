@@ -1,7 +1,7 @@
 package com.example.GestionNetflix.GestionNetflix.dtos;
 
-import model.Actor;
-import model.Pelicula;
+import com.example.GestionNetflix.GestionNetflix.model.Actor;
+import com.example.GestionNetflix.GestionNetflix.model.Pelicula;
 
 import java.util.List;
 
