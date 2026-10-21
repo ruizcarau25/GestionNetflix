@@ -101,7 +101,7 @@ public class PeliculaController {
                     description = "Película creada",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = PeliculaResponseDTO.class)
+                            schema = @Schema(implementation = GetPeliculaList.class)
                     )
             ),
             @ApiResponse(
