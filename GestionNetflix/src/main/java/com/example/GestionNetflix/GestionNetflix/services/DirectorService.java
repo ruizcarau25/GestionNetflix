@@ -1,5 +1,6 @@
 package com.example.GestionNetflix.GestionNetflix.services;
 
+import com.example.GestionNetflix.GestionNetflix.dtos.DirectorRequestDto;
 import com.example.GestionNetflix.GestionNetflix.model.Actor;
 import com.example.GestionNetflix.GestionNetflix.model.Director;
 import com.example.GestionNetflix.GestionNetflix.repos.DirectorRepository;
@@ -22,6 +23,10 @@ public class DirectorService {
             throw new RuntimeException();
         }
         return result;
+    }
+
+    public Director addDirector(DirectorRequestDto dto) {
+        return directorRepository.save(dto.to());
     }
 
 }
