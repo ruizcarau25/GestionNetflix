@@ -1,5 +1,9 @@
 package com.example.GestionNetflix.GestionNetflix.services;
 
+import com.example.GestionNetflix.GestionNetflix.dtos.PeliculaRequestDto;
+import com.example.GestionNetflix.GestionNetflix.error.PeliculaYaExisteException;
+import com.example.GestionNetflix.GestionNetflix.error.notfound.DirectorNoEncontradoException;
+import com.example.GestionNetflix.GestionNetflix.model.Director;
 import com.example.GestionNetflix.GestionNetflix.model.Pelicula;
 import com.example.GestionNetflix.GestionNetflix.repos.ActorRepository;
 import com.example.GestionNetflix.GestionNetflix.repos.DirectorRepository;
@@ -24,6 +28,19 @@ public class PeliculaService {
             throw new RuntimeException();
         }
         return result;
+    }
+
+    public Pelicula addPelicula(PeliculaRequestDto dto) {
+        Director director = directorRepository.findById(dto.directorId())
+                .orElseThrow(() -> new DirectorNoEncontradoException(dto.directorId()));
+
+        if (peliculaRepository.existsByTitulo(dto.titulo())) {
+            throw new PeliculaYaExisteException(dto.titulo());
+        }
+
+        Pelicula pelicula = dto.to();
+        pelicula.setDirector(director);
+        return peliculaRepository.save(pelicula);
     }
 
 
