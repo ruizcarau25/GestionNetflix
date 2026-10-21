@@ -23,7 +23,7 @@ public class Actor {
     private Long id;
     private String nombre;
 
-    @ManyToMany(mappedBy = "Actor")
+    @ManyToMany(mappedBy = "actores")
     private List<Pelicula> peliculas = new ArrayList<>();
 
 }

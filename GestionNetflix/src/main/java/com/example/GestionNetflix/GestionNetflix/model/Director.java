@@ -23,7 +23,7 @@ public class Director {
     private String nombre;
     private Integer anioNacimiento;
 
-    @OneToMany(mappedBy = "Director" )
+    @OneToMany(mappedBy = "director" )
     private List<Pelicula> peliculas = new ArrayList <>();
 
 }

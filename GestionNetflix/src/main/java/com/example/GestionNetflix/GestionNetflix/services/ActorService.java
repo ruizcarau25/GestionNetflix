@@ -1,5 +1,6 @@
 package com.example.GestionNetflix.GestionNetflix.services;
 
+import com.example.GestionNetflix.GestionNetflix.dtos.ActorRequestDto;
 import com.example.GestionNetflix.GestionNetflix.repos.ActorRepository;
 import com.example.GestionNetflix.GestionNetflix.repos.PeliculaRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,10 @@ public class ActorService {
             throw new RuntimeException();
         }
         return result;
+    }
+
+    public Actor addActor(ActorRequestDto dto) {
+        return actorRepository.save(dto.to());
     }
 
 }
