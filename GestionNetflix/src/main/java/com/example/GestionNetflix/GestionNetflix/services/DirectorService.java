@@ -21,7 +21,7 @@ public class DirectorService {
     public List<Director> GetAllDirector() {
         List<Director> result = directorRepository.findAll();
         if (result.isEmpty()){
-            throw new RuntimeException();
+            throw new DirectorNoEncontradoException();
         }
         return result;
     }

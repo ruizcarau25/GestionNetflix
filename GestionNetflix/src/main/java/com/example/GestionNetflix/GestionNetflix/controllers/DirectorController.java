@@ -26,7 +26,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/director")
+@RequestMapping("/api/v1/directores")
 @Validated
 @Tag(name = "Directores", description = "Gestión de los directores de las películas (CRUD completo)")
 public class DirectorController {
@@ -78,7 +78,7 @@ public class DirectorController {
             )
     })
 
-    @RequestMapping
+    @GetMapping
     public ResponseEntity<List<GetDirectorList>> GetAllDirector(){
         List<Director> result = directorService.GetAllDirector();
         return ResponseEntity.ok(

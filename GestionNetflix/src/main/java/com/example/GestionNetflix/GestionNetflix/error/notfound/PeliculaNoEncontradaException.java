@@ -1,6 +1,6 @@
 package com.example.GestionNetflix.GestionNetflix.error.notfound;
 
-public class PeliculaNoEncontradaException extends RuntimeException {
+public class PeliculaNoEncontradaException extends EntidadNoEncontradaException {
     public PeliculaNoEncontradaException() {
         super("No hay películas registradas");
     }

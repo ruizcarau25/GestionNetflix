@@ -1,6 +1,7 @@
 package com.example.GestionNetflix.GestionNetflix.services;
 
 import com.example.GestionNetflix.GestionNetflix.dtos.ActorRequestDto;
+import com.example.GestionNetflix.GestionNetflix.error.notfound.ActorNoEncontradoException;
 import com.example.GestionNetflix.GestionNetflix.repos.ActorRepository;
 import com.example.GestionNetflix.GestionNetflix.repos.PeliculaRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +20,7 @@ public class ActorService {
     public List<Actor> getAllActor() {
         List<Actor> result = actorRepository.findAll();
         if (result.isEmpty()) {
-            // Cambiar por una personalizada
-            throw new RuntimeException();
+            throw new ActorNoEncontradoException();
         }
         return result;
     }

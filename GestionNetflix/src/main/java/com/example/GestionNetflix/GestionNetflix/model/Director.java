@@ -1,9 +1,6 @@
 package com.example.GestionNetflix.GestionNetflix.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,7 +20,8 @@ public class Director {
     private String nombre;
     private Integer anioNacimiento;
 
-    @OneToMany(mappedBy = "director" )
+    @OneToMany(mappedBy = "director")
+    @Builder.Default
     private List<Pelicula> peliculas = new ArrayList <>();
 
 }

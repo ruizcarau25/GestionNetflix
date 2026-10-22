@@ -23,7 +23,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/actor")
+@RequestMapping("/api/v1/actores")
 @Validated
 @Tag(name = "Actores", description = "Gestión de los actores y actrices (crear y listar)")
 public class ActorController {

@@ -1,6 +1,6 @@
 package com.example.GestionNetflix.GestionNetflix.error.notfound;
 
-public class ActorNoEncontradoException extends RuntimeException {
+public class ActorNoEncontradoException extends EntidadNoEncontradaException {
 
     public ActorNoEncontradoException() {
         super("No hay actores registrados");

@@ -29,8 +29,7 @@ public class PeliculaService {
     public List<Pelicula> GetAllPeliculas() {
         List<Pelicula> result = peliculaRepository.findAll();
         if (result.isEmpty()) {
-            //Cambiar por personalizada en un futuro
-            throw new RuntimeException();
+            throw new PeliculaNoEncontradaException();
         }
         return result;
     }

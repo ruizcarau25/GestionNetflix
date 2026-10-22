@@ -19,13 +19,15 @@ import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/pelicula")
+@RequestMapping("/api/v1/peliculas")
+@Validated
 public class PeliculaController {
 
     private  final PeliculaService peliculaService;

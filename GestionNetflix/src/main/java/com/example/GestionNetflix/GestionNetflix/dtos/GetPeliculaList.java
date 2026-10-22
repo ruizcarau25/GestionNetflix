@@ -7,17 +7,19 @@ import com.example.GestionNetflix.GestionNetflix.model.Pelicula;
 import java.time.LocalDate;
 import java.util.List;
 
-public record GetPeliculaList(String titulo, String genero,
-                              LocalDate fechaEstreno, Director director,
-                              List<Actor> actores) {
+public record GetPeliculaList(Long id, String titulo, String genero,
+                              LocalDate fechaEstreno,
+                              DirectorSimpleDto director,
+                              List<ActorSimpleDto> actores) {
 
     public static GetPeliculaList of(Pelicula p) {
-        return  new GetPeliculaList(
+        return new GetPeliculaList(
+                p.getId(),
                 p.getTitulo(),
                 p.getGenero(),
                 p.getFechaEstreno(),
-                p.getDirector(),
-                p.getActores()
+                DirectorSimpleDto.of(p.getDirector()),
+                p.getActores().stream().map(ActorSimpleDto::of).toList()
         );
     }
 }

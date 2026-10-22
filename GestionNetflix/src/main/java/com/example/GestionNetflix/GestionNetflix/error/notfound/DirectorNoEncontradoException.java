@@ -1,6 +1,6 @@
 package com.example.GestionNetflix.GestionNetflix.error.notfound;
 
-public class DirectorNoEncontradoException extends RuntimeException {
+public class DirectorNoEncontradoException extends EntidadNoEncontradaException {
 
     public DirectorNoEncontradoException() {
         super("No hay directores registrados");
