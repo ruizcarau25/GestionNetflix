@@ -40,4 +40,8 @@ public class DirectorService {
                 .orElseThrow(() -> new DirectorNoEncontradoException(id));
     }
 
+    public void deleteDirector(Long id) {
+        directorRepository.deleteById(id);
+    }
+
 }

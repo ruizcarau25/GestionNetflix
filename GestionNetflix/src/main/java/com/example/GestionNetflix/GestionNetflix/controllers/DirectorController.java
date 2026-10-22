@@ -168,6 +168,7 @@ public class DirectorController {
                     )
             )
     })
+
     @PutMapping("/{id}")
     public ResponseEntity<GetDirectorList> updateDirector(
             @Parameter(description = "Id del director", example = "1")
@@ -175,6 +176,30 @@ public class DirectorController {
             @Valid @RequestBody DirectorRequestDto dto) {
         return ResponseEntity.ok(
                 GetDirectorList.of(directorService.updateDirector(id, dto)));
+    }
+
+    @Operation(
+            summary = "Borrar un director",
+            description = "Borra un director y todas las películas que ha dirigido. "
+                    + "La operación es idempotente: si el director no existe también devuelve 204."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Director borrado (o inexistente)"),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "El id no es válido (debe ser mayor o igual que 1)",
+                    content = @Content(
+                            mediaType = "application/problem+json",
+                            schema = @Schema(implementation = ProblemDetail.class)
+                    )
+            )
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteDirector(
+            @Parameter(description = "Id del director", example = "1")
+            @PathVariable @Min(value = 1, message = "El id debe ser mayor o igual que 1") Long id) {
+        directorService.deleteDirector(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
