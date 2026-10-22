@@ -201,5 +201,53 @@ public class DirectorController {
         directorService.deleteDirector(id);
         return ResponseEntity.noContent().build();
     }
+    @Operation(
+            summary = "Obtener un director por su id",
+            description = "Devuelve los datos de un director concreto"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Director encontrado",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = GetDirectorList.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "El id no es válido (debe ser mayor o igual que 1)",
+                    content = @Content(
+                            mediaType = "application/problem+json",
+                            schema = @Schema(implementation = ProblemDetail.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "No existe ningún director con ese id",
+                    content = @Content(
+                            mediaType = "application/problem+json",
+                            schema = @Schema(implementation = ProblemDetail.class),
+                            examples = @ExampleObject(
+                                    name = "Error 404",
+                                    value = """
+                                            {
+                                              "type": "https://example.com/errors/not-found",
+                                              "title": "Recurso no encontrado",
+                                              "status": 404,
+                                              "detail": "Director no encontrado con id 99",
+                                              "instance": "/api/v1/directores/99"
+                                            }
+                                            """
+                            )
+                    )
+            )
+    })
+    @GetMapping("/{id}")
+    public ResponseEntity<GetDirectorList> getDirectorById(
+            @Parameter(description = "Id del director", example = "1")
+            @PathVariable @Min(value = 1, message = "El id debe ser mayor o igual que 1") Long id) {
+        return ResponseEntity.ok(GetDirectorList.of(directorService.getDirectorById(id)));
+    }
 
 }

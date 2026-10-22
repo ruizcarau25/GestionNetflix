@@ -44,4 +44,9 @@ public class DirectorService {
         directorRepository.deleteById(id);
     }
 
+    public Director getDirectorById(Long id) {
+        return directorRepository.findById(id)
+                .orElseThrow(() -> new DirectorNoEncontradoException(id));
+    }
+
 }
