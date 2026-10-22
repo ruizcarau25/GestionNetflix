@@ -62,5 +62,9 @@ public class PeliculaService {
         return peliculaRepository.save(pelicula);
     }
 
+    public void deletePelicula(Long id) {
+        peliculaRepository.deleteById(id);
+    }
+
 
 }

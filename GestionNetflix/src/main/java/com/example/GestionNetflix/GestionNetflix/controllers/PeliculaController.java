@@ -232,4 +232,28 @@ public class PeliculaController {
                 GetPeliculaList.of(peliculaService.updatePelicula(peliculaId, dto)));
     }
 
+    @Operation(
+            summary = "Borrar una película",
+            description = "Borra una película y su asignación de reparto. "
+                    + "La operación es idempotente: si la película no existe también devuelve 204."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Película borrada (o inexistente)"),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "El id no es válido (debe ser mayor o igual que 1)",
+                    content = @Content(
+                            mediaType = "application/problem+json",
+                            schema = @Schema(implementation = ProblemDetail.class)
+                    )
+            )
+    })
+    @DeleteMapping("/{peliculaId}")
+    public ResponseEntity<Void> deletePelicula(
+            @Parameter(description = "Id de la película", example = "1")
+            @PathVariable @Min(value = 1, message = "El id debe ser mayor o igual que 1") Long peliculaId) {
+        peliculaService.deletePelicula(peliculaId);
+        return ResponseEntity.noContent().build();
+    }
+
 }
