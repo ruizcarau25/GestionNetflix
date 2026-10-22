@@ -321,4 +321,77 @@ public class PeliculaController {
         return ResponseEntity.ok(GetPeliculaList.of(peliculaService.getPeliculaById(peliculaId)));
     }
 
+    @Operation(
+            summary = "Asignar un actor a una película",
+            description = "Añade un actor existente al reparto de una película existente (relación Muchos a Muchos). "
+                    + "Devuelve la película con el reparto actualizado."
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Actor asignado. Se devuelve la película con su reparto actualizado",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = GetPeliculaList.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Alguno de los ids no es válido (deben ser mayores o iguales que 1)",
+                    content = @Content(
+                            mediaType = "application/problem+json",
+                            schema = @Schema(implementation = ProblemDetail.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "No existe la película o el actor",
+                    content = @Content(
+                            mediaType = "application/problem+json",
+                            schema = @Schema(implementation = ProblemDetail.class),
+                            examples = @ExampleObject(
+                                    name = "Error 404",
+                                    value = """
+                                            {
+                                              "type": "https://example.com/errors/not-found",
+                                              "title": "Recurso no encontrado",
+                                              "status": 404,
+                                              "detail": "Actor no encontrado con id 99",
+                                              "instance": "/api/v1/peliculas/1/actores/99"
+                                            }
+                                            """
+                            )
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "409",
+                    description = "El actor ya forma parte del reparto de la película",
+                    content = @Content(
+                            mediaType = "application/problem+json",
+                            schema = @Schema(implementation = ProblemDetail.class),
+                            examples = @ExampleObject(
+                                    name = "Error 409",
+                                    value = """
+                                            {
+                                              "type": "https://example.com/errors/actor-ya-en-reparto",
+                                              "title": "El actor ya está en el reparto",
+                                              "status": 409,
+                                              "detail": "El actor con id 1 ya forma parte del reparto de la película con id 1",
+                                              "instance": "/api/v1/peliculas/1/actores/1"
+                                            }
+                                            """
+                            )
+                    )
+            )
+    })
+    @PostMapping("/{peliculaId}/actores/{actorId}")
+    public ResponseEntity<GetPeliculaList> asignarActor(
+            @Parameter(description = "Id de la película", example = "1")
+            @PathVariable @Min(value = 1, message = "El id debe ser mayor o igual que 1") Long peliculaId,
+            @Parameter(description = "Id del actor", example = "1")
+            @PathVariable @Min(value = 1, message = "El id debe ser mayor o igual que 1") Long actorId) {
+        return ResponseEntity.ok(
+                GetPeliculaList.of(peliculaService.asignarActor(peliculaId, actorId)));
+    }
+
 }

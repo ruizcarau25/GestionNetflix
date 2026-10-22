@@ -1,9 +1,12 @@
 package com.example.GestionNetflix.GestionNetflix.services;
 
 import com.example.GestionNetflix.GestionNetflix.dtos.PeliculaRequestDto;
+import com.example.GestionNetflix.GestionNetflix.error.ActorYaEnRepartoException;
 import com.example.GestionNetflix.GestionNetflix.error.PeliculaYaExisteException;
+import com.example.GestionNetflix.GestionNetflix.error.notfound.ActorNoEncontradoException;
 import com.example.GestionNetflix.GestionNetflix.error.notfound.DirectorNoEncontradoException;
 import com.example.GestionNetflix.GestionNetflix.error.notfound.PeliculaNoEncontradaException;
+import com.example.GestionNetflix.GestionNetflix.model.Actor;
 import com.example.GestionNetflix.GestionNetflix.model.Director;
 import com.example.GestionNetflix.GestionNetflix.model.Pelicula;
 import com.example.GestionNetflix.GestionNetflix.repos.ActorRepository;
@@ -11,6 +14,7 @@ import com.example.GestionNetflix.GestionNetflix.repos.DirectorRepository;
 import com.example.GestionNetflix.GestionNetflix.repos.PeliculaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -69,6 +73,24 @@ public class PeliculaService {
     public Pelicula getPeliculaById(Long id) {
         return peliculaRepository.findById(id)
                 .orElseThrow(() -> new PeliculaNoEncontradaException(id));
+    }
+
+    @Transactional
+    public Pelicula asignarActor(Long peliculaId, Long actorId) {
+        Pelicula pelicula = peliculaRepository.findById(peliculaId)
+                .orElseThrow(() -> new PeliculaNoEncontradaException(peliculaId));
+
+        Actor actor = actorRepository.findById(actorId)
+                .orElseThrow(() -> new ActorNoEncontradoException(actorId));
+
+        boolean yaEnReparto = pelicula.getActores().stream()
+                .anyMatch(a -> a.getId().equals(actorId));
+        if (yaEnReparto) {
+            throw new ActorYaEnRepartoException(peliculaId, actorId);
+        }
+
+        pelicula.getActores().add(actor);
+        return peliculaRepository.save(pelicula);
     }
 
 
