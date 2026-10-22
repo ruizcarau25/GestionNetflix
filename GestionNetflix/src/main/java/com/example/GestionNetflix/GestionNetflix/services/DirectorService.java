@@ -1,6 +1,7 @@
 package com.example.GestionNetflix.GestionNetflix.services;
 
 import com.example.GestionNetflix.GestionNetflix.dtos.DirectorRequestDto;
+import com.example.GestionNetflix.GestionNetflix.error.notfound.DirectorNoEncontradoException;
 import com.example.GestionNetflix.GestionNetflix.model.Actor;
 import com.example.GestionNetflix.GestionNetflix.model.Director;
 import com.example.GestionNetflix.GestionNetflix.repos.DirectorRepository;
@@ -27,6 +28,16 @@ public class DirectorService {
 
     public Director addDirector(DirectorRequestDto dto) {
         return directorRepository.save(dto.to());
+    }
+
+    public Director updateDirector(Long id, DirectorRequestDto dto) {
+        return directorRepository.findById(id)
+                .map(d -> {
+                    d.setNombre(dto.nombre());
+                    d.setAnioNacimiento(dto.anioNacimiento());
+                    return directorRepository.save(d);
+                })
+                .orElseThrow(() -> new DirectorNoEncontradoException(id));
     }
 
 }

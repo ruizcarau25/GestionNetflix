@@ -6,6 +6,7 @@ import com.example.GestionNetflix.GestionNetflix.model.Director;
 import com.example.GestionNetflix.GestionNetflix.services.DirectorService;
 import com.example.GestionNetflix.GestionNetflix.services.PeliculaService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -14,14 +15,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -137,6 +136,45 @@ public class DirectorController {
             @Valid @RequestBody DirectorRequestDto dto) {
         return ResponseEntity.status(201)
                 .body(GetDirectorList.of(directorService.addDirector(dto)));
+    }
+
+    @Operation(
+            summary = "Modificar un director",
+            description = "Modifica el nombre y el año de nacimiento de un director existente"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Director modificado",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = GetDirectorList.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Datos de entrada no válidos",
+                    content = @Content(
+                            mediaType = "application/problem+json",
+                            schema = @Schema(implementation = ProblemDetail.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "No existe ningún director con ese id",
+                    content = @Content(
+                            mediaType = "application/problem+json",
+                            schema = @Schema(implementation = ProblemDetail.class)
+                    )
+            )
+    })
+    @PutMapping("/{id}")
+    public ResponseEntity<GetDirectorList> updateDirector(
+            @Parameter(description = "Id del director", example = "1")
+            @PathVariable @Min(value = 1, message = "El id debe ser mayor o igual que 1") Long id,
+            @Valid @RequestBody DirectorRequestDto dto) {
+        return ResponseEntity.ok(
+                GetDirectorList.of(directorService.updateDirector(id, dto)));
     }
 
 }

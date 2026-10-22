@@ -1,10 +1,13 @@
 package com.example.GestionNetflix.GestionNetflix.controllers;
 
+import com.example.GestionNetflix.GestionNetflix.dtos.DirectorRequestDto;
+import com.example.GestionNetflix.GestionNetflix.dtos.GetDirectorList;
 import com.example.GestionNetflix.GestionNetflix.dtos.GetPeliculaList;
 import com.example.GestionNetflix.GestionNetflix.dtos.PeliculaRequestDto;
 import com.example.GestionNetflix.GestionNetflix.model.Pelicula;
 import com.example.GestionNetflix.GestionNetflix.services.PeliculaService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -12,6 +15,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
