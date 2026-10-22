@@ -66,5 +66,10 @@ public class PeliculaService {
         peliculaRepository.deleteById(id);
     }
 
+    public Pelicula getPeliculaById(Long id) {
+        return peliculaRepository.findById(id)
+                .orElseThrow(() -> new PeliculaNoEncontradaException(id));
+    }
+
 
 }

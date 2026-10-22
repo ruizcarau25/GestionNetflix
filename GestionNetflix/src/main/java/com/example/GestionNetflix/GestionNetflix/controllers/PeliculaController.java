@@ -256,4 +256,69 @@ public class PeliculaController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(
+            summary = "Obtener una película por su id",
+            description = "Devuelve una película con su director y la lista de su reparto de actores"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Película encontrada, incluyendo su reparto",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = GetPeliculaList.class),
+                            examples = @ExampleObject(
+                                    name = "Película con reparto",
+                                    value = """
+                                            {
+                                              "id": 1,
+                                              "titulo": "Origen",
+                                              "genero": "Ciencia ficción",
+                                              "fechaEstreno": "2010-07-16",
+                                              "director": { "id": 1, "nombre": "Christopher Nolan" },
+                                              "actores": [
+                                                { "id": 1, "nombre": "Leonardo DiCaprio" },
+                                                { "id": 2, "nombre": "Elliot Page" }
+                                              ]
+                                            }
+                                            """
+                            )
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "El id no es válido (debe ser mayor o igual que 1)",
+                    content = @Content(
+                            mediaType = "application/problem+json",
+                            schema = @Schema(implementation = ProblemDetail.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "No existe ninguna película con ese id",
+                    content = @Content(
+                            mediaType = "application/problem+json",
+                            schema = @Schema(implementation = ProblemDetail.class),
+                            examples = @ExampleObject(
+                                    name = "Error 404",
+                                    value = """
+                                            {
+                                              "type": "https://example.com/errors/not-found",
+                                              "title": "Recurso no encontrado",
+                                              "status": 404,
+                                              "detail": "Película no encontrada con id 99",
+                                              "instance": "/api/v1/peliculas/99"
+                                            }
+                                            """
+                            )
+                    )
+            )
+    })
+    @GetMapping("/{peliculaId}")
+    public ResponseEntity<GetPeliculaList> getPeliculaById(
+            @Parameter(description = "Id de la película", example = "1")
+            @PathVariable @Min(value = 1, message = "El id debe ser mayor o igual que 1") Long peliculaId) {
+        return ResponseEntity.ok(GetPeliculaList.of(peliculaService.getPeliculaById(peliculaId)));
+    }
+
 }
