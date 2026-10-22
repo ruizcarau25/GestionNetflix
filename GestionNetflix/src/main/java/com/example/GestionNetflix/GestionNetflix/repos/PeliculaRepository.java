@@ -7,4 +7,6 @@ public interface PeliculaRepository extends JpaRepository<Pelicula, Long> {
 
     boolean existsByTitulo(String titulo);
 
+    boolean existsByTituloAndIdNot(String titulo, Long id);
+
 }

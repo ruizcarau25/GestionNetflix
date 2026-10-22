@@ -184,4 +184,52 @@ public class PeliculaController {
                 .body(GetPeliculaList.of(peliculaService.addPelicula(dto)));
     }
 
+    @Operation(
+            summary = "Modificar una película",
+            description = "Modifica los datos de una película existente (el reparto no se modifica). "
+                    + "Se aplican las mismas reglas que al crearla."
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Película modificada",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = GetPeliculaList.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Datos de entrada no válidos",
+                    content = @Content(
+                            mediaType = "application/problem+json",
+                            schema = @Schema(implementation = ProblemDetail.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "No existe la película o el director indicado",
+                    content = @Content(
+                            mediaType = "application/problem+json",
+                            schema = @Schema(implementation = ProblemDetail.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "409",
+                    description = "Otra película ya usa ese título",
+                    content = @Content(
+                            mediaType = "application/problem+json",
+                            schema = @Schema(implementation = ProblemDetail.class)
+                    )
+            )
+    })
+    @PutMapping("/{peliculaId}")
+    public ResponseEntity<GetPeliculaList> updatePelicula(
+            @Parameter(description = "Id de la película", example = "1")
+            @PathVariable @Min(value = 1, message = "El id debe ser mayor o igual que 1") Long peliculaId,
+            @Valid @RequestBody PeliculaRequestDto dto) {
+        return ResponseEntity.ok(
+                GetPeliculaList.of(peliculaService.updatePelicula(peliculaId, dto)));
+    }
+
 }
