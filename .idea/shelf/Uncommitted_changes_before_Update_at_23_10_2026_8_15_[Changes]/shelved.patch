@@ -1,0 +1,18 @@
+Index: GestionNetflix/src/main/java/com/example/GestionNetflix/GestionNetflix/services/DirectorService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.GestionNetflix.GestionNetflix.services;\r\n\r\nimport com.example.GestionNetflix.GestionNetflix.dtos.DirectorRequestDto;\r\nimport com.example.GestionNetflix.GestionNetflix.model.Actor;\r\nimport com.example.GestionNetflix.GestionNetflix.model.Director;\r\nimport com.example.GestionNetflix.GestionNetflix.repos.DirectorRepository;\r\nimport com.example.GestionNetflix.GestionNetflix.repos.PeliculaRepository;\r\nimport lombok.RequiredArgsConstructor;\r\nimport org.springframework.stereotype.Service;\r\n\r\nimport java.util.List;\r\n\r\n@Service\r\n@RequiredArgsConstructor\r\npublic class DirectorService {\r\n\r\n    private final DirectorRepository directorRepository;\r\n    private final PeliculaRepository peliculaRepository;\r\n\r\n    public List<Director> GetAllDirector() {\r\n        List<Director> result = directorRepository.findAll();\r\n        if (result.isEmpty()){\r\n            throw new RuntimeException();\r\n        }\r\n        return result;\r\n    }\r\n\r\n    public Director addDirector(DirectorRequestDto dto) {\r\n        return directorRepository.save(dto.to());\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/GestionNetflix/src/main/java/com/example/GestionNetflix/GestionNetflix/services/DirectorService.java b/GestionNetflix/src/main/java/com/example/GestionNetflix/GestionNetflix/services/DirectorService.java
+--- a/GestionNetflix/src/main/java/com/example/GestionNetflix/GestionNetflix/services/DirectorService.java	(revision f1e4b3169990c485a0f63125dcf53f2cb584606f)
++++ b/GestionNetflix/src/main/java/com/example/GestionNetflix/GestionNetflix/services/DirectorService.java	(date 1792658568111)
+@@ -20,6 +20,7 @@
+     public List<Director> GetAllDirector() {
+         List<Director> result = directorRepository.findAll();
+         if (result.isEmpty()){
++            //Cambiar personalizada
+             throw new RuntimeException();
+         }
+         return result;
