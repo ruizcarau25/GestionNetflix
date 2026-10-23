@@ -1,4 +1,4 @@
-package model;
+package com.example.GestionNetflix.GestionNetflix.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -33,6 +33,7 @@ public class Pelicula {
             joinColumns = @JoinColumn(name = "pelicula_id"),
             inverseJoinColumns = @JoinColumn(name = "actor_id")
     )
+    @Builder.Default
     private List<Actor> actores = new ArrayList<>();
 
 }
